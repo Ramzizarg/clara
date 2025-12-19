@@ -10,6 +10,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -105,7 +106,7 @@ export default function LoginPage() {
                 </svg>
               </span>
               <input
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 className="h-6 w-full border-none bg-transparent p-0 text-sm text-zinc-900 placeholder-zinc-400 focus:outline-none"
                 placeholder="••••••••"
                 value={password}
@@ -113,16 +114,34 @@ export default function LoginPage() {
                 required
                 autoComplete="current-password"
               />
-              <span className="ml-2 cursor-default text-zinc-400">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  className="h-4 w-4"
-                >
-                  <path d="M10 4.5C5.5 4.5 2.2 7.3 1 10c1.2 2.7 4.5 5.5 9 5.5s7.8-2.8 9-5.5c-1.2-2.7-4.5-5.5-9-5.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Z" />
-                </svg>
-              </span>
+              <button
+                type="button"
+                className="ml-2 text-zinc-400 hover:text-zinc-600 focus:outline-none"
+                onClick={() => setShowPassword((prev) => !prev)}
+                aria-label={showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
+              >
+                {showPassword ? (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="h-4 w-4"
+                  >
+                    <path d="M3.53 2.47a.75.75 0 0 0-1.06 1.06l2.03 2.03C2.64 7.01 1.47 8.7 1 10c1.2 3.2 4.7 6.5 10 6.5 1.61 0 3.06-.3 4.35-.82l2.12 2.12a.75.75 0 1 0 1.06-1.06l-16-16Z" />
+                    <path d="M9.53 8.03 11 9.5a1.5 1.5 0 0 0 2.12 2.12l1.47 1.47A3.5 3.5 0 0 1 9.53 8.03Z" />
+                    <path d="M12.97 7.03 15 9.06a3.5 3.5 0 0 0-2.03-2.03Z" />
+                  </svg>
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    className="h-4 w-4"
+                  >
+                    <path d="M10 4.5C5.5 4.5 2.2 7.3 1 10c1.2 2.7 4.5 5.5 9 5.5s7.8-2.8 9-5.5c-1.2-2.7-4.5-5.5-9-5.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Z" />
+                  </svg>
+                )}
+              </button>
             </div>
           </div>
 
