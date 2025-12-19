@@ -348,20 +348,6 @@ export default async function EditProductPage({ params }: EditPageProps) {
               />
             </div>
 
-            {/* Description */}
-            <div className="space-y-1">
-              <label className="text-sm font-medium text-zinc-800" htmlFor="description">
-                Description du produit
-              </label>
-              <textarea
-                id="description"
-                name="description"
-                defaultValue={product.description ?? ""}
-                className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-zinc-900"
-                rows={3}
-              />
-            </div>
-
             {/* Images */}
             <div className="space-y-2">
               <div className="space-y-1">
