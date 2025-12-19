@@ -685,7 +685,7 @@ export default function ProductByIdPage() {
                     id="fullName"
                     type="text"
                     ref={nameInputRef}
-                    className="block w-full rounded-lg border border-gray-300 bg-white p-3 text-sm text-gray-900 shadow-sm transition-all duration-200 focus:border-[#ff6b00] focus:ring-2 focus:ring-[#ff6b00]/20 focus:ring-offset-1"
+                    className={`block w-full rounded-lg border ${fieldErrors.name ? "border-red-500" : "border-gray-300"} bg-white p-3 text-sm text-gray-900 shadow-sm transition-all duration-200 focus:border-[#ff6b00] focus:ring-2 focus:ring-[#ff6b00]/20 focus:ring-offset-1`}
                     placeholder="Ex: Mohamed Ben Ali"
                     required
                   />
@@ -711,7 +711,7 @@ export default function ProductByIdPage() {
                     <button
                       type="button"
                       onClick={() => setIsGovernorOpen(!isGovernorOpen)}
-                      className={`flex w-full items-center justify-between rounded-lg border border-gray-300 bg-white p-3 text-left text-sm text-gray-900 shadow-sm transition-all duration-200 focus:border-[#ff6b00] focus:outline-none focus:ring-2 focus:ring-[#ff6b00]/20 focus:ring-offset-1 ${selectedGovernor ? 'text-gray-900' : 'text-gray-500'}`}
+                      className={`flex w-full items-center justify-between rounded-lg border ${fieldErrors.governor ? "border-red-500" : "border-gray-300"} bg-white p-3 text-left text-sm text-gray-900 shadow-sm transition-all duration-200 focus:border-[#ff6b00] focus:outline-none focus:ring-2 focus:ring-[#ff6b00]/20 focus:ring-offset-1 ${selectedGovernor ? 'text-gray-900' : 'text-gray-500'}`}
                     >
                       <span>{selectedGovernor || "Sélectionnez votre gouvernorat"}</span>
                       <svg className={`h-5 w-5 text-gray-400 transition-transform duration-200 ${isGovernorOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -756,7 +756,7 @@ export default function ProductByIdPage() {
                       id="city"
                       type="text"
                       ref={cityInputRef}
-                      className="block w-full rounded-lg border border-gray-300 bg-white p-3 text-sm text-gray-900 shadow-sm transition-all duration-200 focus:border-[#ff6b00] focus:ring-2 focus:ring-[#ff6b00]/20 focus:ring-offset-1"
+                      className={`block w-full rounded-lg border ${fieldErrors.city ? "border-red-500" : "border-gray-300"} bg-white p-3 text-sm text-gray-900 shadow-sm transition-all duration-200 focus:border-[#ff6b00] focus:ring-2 focus:ring-[#ff6b00]/20 focus:ring-offset-1`}
                       placeholder="Ex: Tunis, Sousse, Sfax..."
                       required
                     />
@@ -782,7 +782,7 @@ export default function ProductByIdPage() {
                       id="address"
                       type="text"
                       ref={addressInputRef}
-                      className="block w-full rounded-lg border border-gray-300 bg-white p-3 text-sm text-gray-900 shadow-sm transition-all duration-200 focus:border-[#ff6b00] focus:ring-2 focus:ring-[#ff6b00]/20 focus:ring-offset-1"
+                      className={`block w-full rounded-lg border ${fieldErrors.address ? "border-red-500" : "border-gray-300"} bg-white p-3 text-sm text-gray-900 shadow-sm transition-all duration-200 focus:border-[#ff6b00] focus:ring-2 focus:ring-[#ff6b00]/20 focus:ring-offset-1`}
                       placeholder="N° rue, avenue, immeuble..."
                       required
                     />
@@ -810,7 +810,7 @@ export default function ProductByIdPage() {
                       id="phone"
                       type="tel"
                       ref={phoneInputRef}
-                      className="block w-full rounded-lg border border-gray-300 bg-white p-3 pl-16 text-sm text-gray-900 shadow-sm transition-all duration-200 focus:border-[#ff6b00] focus:ring-2 focus:ring-[#ff6b00]/20 focus:ring-offset-1"
+                      className={`block w-full rounded-lg border ${fieldErrors.phone ? "border-red-500" : "border-gray-300"} bg-white p-3 pl-16 text-sm text-gray-900 shadow-sm transition-all duration-200 focus:border-[#ff6b00] focus:ring-2 focus:ring-[#ff6b00]/20 focus:ring-offset-1`}
                       placeholder="Ex: 20123456"
                       pattern="[0-9]{8}"
                       title="Veuillez entrer un numéro de téléphone valide (8 chiffres)"
