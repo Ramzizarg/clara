@@ -23,13 +23,37 @@ export function ProductImagesUploader({ fieldName = "files", children }: Product
       return;
     }
 
-    const selectedFiles = Array.from(files);
-    const urls: string[] = selectedFiles.map((file) => URL.createObjectURL(file));
+    const MAX_FILES = 8;
+    const MAX_SIZE = 5 * 1024 * 1024; // 5MB per file
 
-    setFiles(selectedFiles);
+    const allSelected = Array.from(files);
+
+    const filtered: File[] = [];
+    for (const file of allSelected) {
+      if (file.size > MAX_SIZE) {
+        alert(`L'image "${file.name}" dépasse 5 Mo et a été ignorée.`);
+        continue;
+      }
+      filtered.push(file);
+      if (filtered.length >= MAX_FILES) {
+        alert(`Maximum ${MAX_FILES} images autorisées par produit.`);
+        break;
+      }
+    }
+
+    if (filtered.length === 0) {
+      setPreviews([]);
+      setFiles([]);
+      setPrimaryIndex(-1);
+      return;
+    }
+
+    const urls: string[] = filtered.map((file) => URL.createObjectURL(file));
+
+    setFiles(filtered);
     setPreviews(urls);
-    // do not auto-select a new primary; user must click one
-    setPrimaryIndex(-1);
+    // auto-select first image as primary for faster workflow
+    setPrimaryIndex(0);
   };
 
   const handleRemove = (index: number, e: MouseEvent<HTMLButtonElement>) => {
