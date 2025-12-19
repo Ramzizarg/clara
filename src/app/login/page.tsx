@@ -39,22 +39,24 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-zinc-50 to-zinc-100 px-4 md:px-0">
-      <div className="w-full max-w-md rounded-2xl bg-white px-8 py-9 md:px-10 md:py-10 shadow-[0_18px_60px_rgba(15,23,42,0.08)] border border-zinc-100">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-zinc-50 via-white to-zinc-100 px-4 md:px-0">
+      <div className="w-full max-w-md rounded-3xl bg-white px-7 py-8 md:px-9 md:py-10 shadow-[0_18px_60px_rgba(15,23,42,0.10)] ring-1 ring-zinc-100">
         {/* Logo / Brand */}
-        <div className="mb-7 flex flex-col items-center">
-          <div
-            className="text-3xl md:text-[32px] font-semibold tracking-tight text-zinc-900"
-            style={{ fontFamily: 'Abramo, var(--font-geist-sans), system-ui, sans-serif' }}
-          >
-            Carla
+        <div className="mb-8 flex flex-col items-center gap-3">
+          <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-[#ff6b00] to-[#ff1744] shadow-[0_10px_35px_rgba(248,113,113,0.30)]">
+            <span className="text-lg font-semibold text-white">C</span>
           </div>
-        </div>
-
-        {/* Title */}
-        <div className="text-center mb-7">
-          <h1 className="text-2xl md:text-[26px] font-semibold text-zinc-900">Connexion Admin</h1>
-          <p className="mt-1 text-sm text-zinc-500">Accédez au tableau de bord</p>
+          <div className="flex flex-col items-center gap-1">
+            <div
+              className="text-3xl md:text-[32px] font-semibold tracking-tight text-zinc-900"
+              style={{ fontFamily: 'Abramo, var(--font-geist-sans), system-ui, sans-serif' }}
+            >
+              Clara
+            </div>
+            <span className="inline-flex items-center rounded-full bg-zinc-50 px-3 py-0.5 text-[10px] font-medium uppercase tracking-[0.18em] text-zinc-500 ring-1 ring-zinc-200">
+              Tableau de bord admin
+            </span>
+          </div>
         </div>
 
         {error && (
@@ -66,9 +68,9 @@ export default function LoginPage() {
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Username */}
           <div className="space-y-1">
-            <label className="text-xs font-medium text-zinc-700">Nom d'utilisateur</label>
-            <div className="flex items-center rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm focus-within:border-zinc-900 focus-within:ring-1 focus-within:ring-zinc-900">
-              <span className="mr-2 text-zinc-400">
+            <p className="text-[11px] text-zinc-500">Nom d'utilisateur par défaut : <span className="font-medium text-zinc-800">admin</span></p>
+            <div className="flex items-center rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm focus-within:border-zinc-900 focus-within:ring-1 focus-within:ring-zinc-900/80">
+              <span className="mr-2 text-zinc-500">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
@@ -93,8 +95,8 @@ export default function LoginPage() {
 
           {/* Password */}
           <div className="space-y-1">
-            <label className="text-xs font-medium text-zinc-700">Mot de passe</label>
-            <div className="flex items-center rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm focus-within:border-zinc-900 focus-within:ring-1 focus-within:ring-zinc-900">
+            <label className="text-xs font-medium text-zinc-800">Mot de passe</label>
+            <div className="flex items-center rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm focus-within:border-zinc-900 focus-within:ring-1 focus-within:ring-zinc-900/80">
               <span className="mr-2 text-zinc-400">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -149,7 +151,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={isLoading}
-            className={`mt-3 w-full rounded-md bg-gradient-to-r from-[#ff6b00] to-[#ff1744] py-2.5 text-sm font-medium text-white shadow-sm transition hover:brightness-95 ${
+            className={`mt-4 w-full rounded-xl bg-gradient-to-r from-[#ff6b00] to-[#ff1744] py-2.5 text-sm font-medium text-white shadow-[0_14px_40px_rgba(248,113,113,0.35)] transition hover:brightness-110 active:translate-y-[1px] ${
               isLoading ? 'opacity-70 cursor-not-allowed' : ''
             }`}
           >
@@ -159,7 +161,7 @@ export default function LoginPage() {
           {/* Secondary button */}
           <Link
             href="/"
-            className="mt-2 flex w-full items-center justify-center rounded-md border border-zinc-200 bg-white py-2 text-sm font-medium text-zinc-800 hover:bg-zinc-50 hover:border-zinc-300"
+            className="mt-3 flex w-full items-center justify-center rounded-xl border border-zinc-200 bg-white py-2 text-sm font-medium text-zinc-800 hover:bg-zinc-50 hover:border-zinc-300"
           >
             <span className="mr-2 text-zinc-500">
               <svg

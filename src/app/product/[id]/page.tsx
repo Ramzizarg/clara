@@ -48,6 +48,13 @@ export default function ProductByIdPage() {
   const [activeSlide, setActiveSlide] = useState(0);
   const [isOrderSuccessOpen, setIsOrderSuccessOpen] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState({
+    name: false,
+    governor: false,
+    city: false,
+    address: false,
+    phone: false,
+  });
   const carouselRef = useRef<HTMLDivElement | null>(null);
   // Container for offers + form: used to scroll when user wants to see the order area
   const orderSectionRef = useRef<HTMLDivElement | null>(null);
@@ -246,13 +253,25 @@ export default function ProductByIdPage() {
     const phone = phoneInputRef.current?.value.trim() ?? "";
     const governor = selectedGovernor.trim();
 
+    const nextFieldErrors = {
+      name: !name,
+      governor: !governor,
+      city: !city,
+      address: !address,
+      phone: !phone,
+    };
+
     if (!name || !governor || !city || !address || !phone) {
+      setFieldErrors(nextFieldErrors);
       setFormError("Merci de remplir tous les champs pour valider votre commande.");
       // Scroll to the whole order block (offers + form), not just the inner form,
-      // so on mobile you see all inputs and context like in the second screenshot
+      // so on mobile you see all inputs and context comme les attributs en rouge
       orderSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
       return;
     }
+
+    // Clear previous field-level errors on successful validation
+    setFieldErrors({ name: false, governor: false, city: false, address: false, phone: false });
 
     try {
       const res = await fetch("/api/orders", {
@@ -657,7 +676,7 @@ export default function ProductByIdPage() {
 
             <div className="space-y-4">
               {/* Nom Complet */}
-              <div className="group relative">
+              <div className={`group relative ${fieldErrors.name ? "border border-red-400 rounded-lg bg-red-50/40" : ""}`}>
                 <label htmlFor="fullName" className="mb-1 block text-sm font-medium text-gray-700">
                   Nom complet <span className="text-red-500">*</span>
                 </label>
@@ -676,12 +695,15 @@ export default function ProductByIdPage() {
                     </svg>
                   </div>
                 </div>
+                {fieldErrors.name && (
+                  <p className="mt-1 text-xs text-red-600">Merci de remplir ce champ.</p>
+                )}
               </div>
 
               {/* Gouvernorat et Ville */}
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 {/* Gouvernorat Dropdown */}
-                <div className="group relative">
+                <div className={`group relative ${fieldErrors.governor ? "border border-red-400 rounded-lg bg-red-50/40" : ""}`}>
                   <label className="mb-1 block text-sm font-medium text-gray-700">
                     Gouvernorat <span className="text-red-500">*</span>
                   </label>
@@ -719,10 +741,13 @@ export default function ProductByIdPage() {
                       </div>
                     )}
                   </div>
+                  {fieldErrors.governor && (
+                    <p className="mt-1 text-xs text-red-600">Merci de choisir un gouvernorat.</p>
+                  )}
                 </div>
 
                 {/* Ville */}
-                <div className="group">
+                <div className={`group ${fieldErrors.city ? "border border-red-400 rounded-lg bg-red-50/40" : ""}`}>
                   <label htmlFor="city" className="mb-1 block text-sm font-medium text-gray-700">
                     Ville <span className="text-red-500">*</span>
                   </label>
@@ -748,7 +773,7 @@ export default function ProductByIdPage() {
               {/* Adresse et Téléphone */}
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 {/* Adresse */}
-                <div className="group">
+                <div className={`group ${fieldErrors.address ? "border border-red-400 rounded-lg bg-red-50/40" : ""}`}>
                   <label htmlFor="address" className="mb-1 block text-sm font-medium text-gray-700">
                     Adresse complète <span className="text-red-500">*</span>
                   </label>
@@ -767,10 +792,13 @@ export default function ProductByIdPage() {
                       </svg>
                     </div>
                   </div>
+                  {fieldErrors.address && (
+                    <p className="mt-1 text-xs text-red-600">Merci de remplir ce champ.</p>
+                  )}
                 </div>
 
                 {/* Téléphone */}
-                <div className="group">
+                <div className={`group ${fieldErrors.phone ? "border border-red-400 rounded-lg bg-red-50/40" : ""}`}>
                   <label htmlFor="phone" className="mb-1 block text-sm font-medium text-gray-700">
                     Téléphone <span className="text-red-500">*</span>
                   </label>
@@ -795,6 +823,9 @@ export default function ProductByIdPage() {
                     </div>
                   </div>
                   <p className="mt-1 text-xs text-gray-500">Format: 8 chiffres (sans le 0 initial)</p>
+                  {fieldErrors.phone && (
+                    <p className="mt-1 text-xs text-red-600">Merci de remplir ce champ avec un numéro valide.</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -1009,15 +1040,91 @@ export default function ProductByIdPage() {
             </svg>
             <span className="sr-only">Fermer le zoom</span>
           </button>
-          <div className="relative flex h-full w-full items-center justify-center">
-            <div className="max-h-[90vh] max-w-[90vw] overflow-auto">
-              <img
-                src={zoomImage.url}
-                alt={product.name}
-                className="mx-auto max-h-[85vh] w-auto max-w-full object-contain"
-                style={{ imageRendering: "auto" }}
-              />
+
+          <div className="relative flex h-full w-full max-w-5xl flex-col items-center justify-center gap-4">
+            <div className="relative flex w-full items-center justify-center">
+              {images.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    const currentIndex = images.findIndex((img) => img.id === zoomImage.id);
+                    if (currentIndex === -1) return;
+                    const prevIndex = (currentIndex - 1 + images.length) % images.length;
+                    setZoomImage(images[prevIndex]);
+                  }}
+                  className="absolute left-0 z-40 flex h-10 w-10 -translate-x-4 items-center justify-center rounded-full bg-black/60 text-white hover:bg-black/80"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    className="h-5 w-5"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M12.707 15.707a1 1 0 01-1.414 0L6.586 11l4.707-4.707a1 1 0 011.414 1.414L9.414 11l3.293 3.293a1 1 0 010 1.414z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </button>
+              )}
+
+              <div className="max-h-[80vh] max-w-[90vw] overflow-auto">
+                <img
+                  src={zoomImage.url}
+                  alt={product.name}
+                  className="mx-auto max-h-[75vh] w-auto max-w-full object-contain"
+                  style={{ imageRendering: "auto" }}
+                />
+              </div>
+
+              {images.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    const currentIndex = images.findIndex((img) => img.id === zoomImage.id);
+                    if (currentIndex === -1) return;
+                    const nextIndex = (currentIndex + 1) % images.length;
+                    setZoomImage(images[nextIndex]);
+                  }}
+                  className="absolute right-0 z-40 flex h-10 w-10 translate-x-4 items-center justify-center rounded-full bg-black/60 text-white hover:bg-black/80"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    className="h-5 w-5"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M7.293 4.293a1 1 0 011.414 0L13.414 9l-4.707 4.707a1 1 0 01-1.414-1.414L10.586 9 7.293 5.707a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </button>
+              )}
             </div>
+
+            {images.length > 1 && (
+              <div className="mt-2 flex max-w-full gap-2 overflow-x-auto px-2">
+                {images.map((img) => (
+                  <button
+                    key={img.id}
+                    type="button"
+                    onClick={() => setZoomImage(img)}
+                    className={`h-16 w-12 flex-shrink-0 overflow-hidden rounded-lg border ${
+                      img.id === zoomImage.id ? "border-white ring-2 ring-white/80" : "border-zinc-500/60"
+                    }`}
+                  >
+                    <img
+                      src={img.url}
+                      alt={product.name}
+                      className="h-full w-full object-cover"
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       )}
