@@ -1023,7 +1023,7 @@ export default function ProductByIdPage() {
               </div>
               <h3 className="mt-6 text-2xl font-bold text-gray-900">Commande effectuée avec succès !</h3>
               <p className="mt-3 text-base text-gray-600">
-                Merci pour votre commande. Notre équipe vous contactera sous peu pour confirmer votre commande.
+                Merci pour votre commande. Nous allons vous appeler dans les plus brefs délais pour confirmer votre commande.
               </p>
               <div className="mt-8">
                 <button
