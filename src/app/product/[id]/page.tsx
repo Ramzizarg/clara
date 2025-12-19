@@ -969,15 +969,36 @@ export default function ProductByIdPage() {
         </div>
       </footer>
 
-      {/* Mobile bottom bar order button */}
-      <div className="fixed inset-x-0 bottom-0 z-30 border-t border-black/5 bg-white/90 px-4 py-3 backdrop-blur md:hidden">
-        <button
-          type="button"
-          onClick={handleSubmitOrder}
-          className="mx-auto flex w-full max-w-md items-center justify-center rounded-full bg-gradient-to-r from-[#ff6b00] to-[#ff1744] py-3 text-sm font-semibold text-white shadow-md hover:brightness-95"
-        >
-          <span>Commander maintenant</span>
-        </button>
+      {/* Mobile bottom bar: price summary + order button */}
+      <div className="fixed inset-x-0 bottom-0 z-30 border-t border-black/5 bg-white/95 px-3 py-3 backdrop-blur md:hidden">
+        <div className="mx-auto flex max-w-xl items-center gap-3">
+          <div className="flex-1 rounded-xl bg-gradient-to-br from-[#fff9e9] to-[#ffeccc] px-3 py-2 text-[11px] shadow-sm border border-[#ffd9a3]">
+            <div className="flex justify-between font-medium text-zinc-800">
+              <span>Sous-total</span>
+              <span>{subtotal.toFixed(2)} DT</span>
+            </div>
+            <div className="flex justify-between text-[11px] text-zinc-700">
+              <span>Livraison</span>
+              <span>{livraison.toFixed(2)} DT</span>
+            </div>
+            <div className="mt-1 flex items-baseline justify-between border-t border-[#ffd9a3] pt-1">
+              <span className="font-semibold uppercase tracking-wide text-[10px] text-zinc-900">
+                Prix total
+              </span>
+              <span className="text-sm font-extrabold text-emerald-600">
+                {total.toFixed(2)} DT
+              </span>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={handleSubmitOrder}
+            className="flex flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-r from-[#ff6b00] to-[#ff1744] px-4 py-3 text-xs font-semibold text-white shadow-md hover:brightness-95"
+          >
+            <span>Commander</span>
+          </button>
+        </div>
       </div>
 
       {/* Order Success Modal - Same for both desktop and mobile */}
