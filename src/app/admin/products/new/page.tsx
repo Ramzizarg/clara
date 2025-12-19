@@ -5,8 +5,7 @@ import { redirect } from "next/navigation";
 import { SignOutButton } from "@/components/admin/SignOutButton";
 import { ProductImagesUploader } from "@/components/admin/ProductImagesUploader";
 import { ProductFeaturesNewEditor } from "@/components/admin/ProductFeaturesNewEditor";
-import path from "path";
-import { promises as fs } from "fs";
+import { put } from "@vercel/blob";
 
 async function createProduct(formData: FormData) {
   "use server";
@@ -36,9 +35,6 @@ async function createProduct(formData: FormData) {
     // In real app you'd return validation errors; here we just redirect back.
     redirect("/admin/products");
   }
-  
-  const uploadDir = path.join(process.cwd(), "public", "uploads");
-  await fs.mkdir(uploadDir, { recursive: true });
 
   // Upload all files and collect their URLs
   const uploadedFiles: { url: string; isPrimary: boolean }[] = [];
@@ -49,11 +45,13 @@ async function createProduct(formData: FormData) {
     
     const buffer = Buffer.from(await file.arrayBuffer());
     const filename = `${Date.now()}-${file.name}`.replace(/\s+/g, "-");
-    const filePath = path.join(uploadDir, filename);
-    await fs.writeFile(filePath, buffer);
-    
+
+    const blob = await put(`products/${filename}`, buffer, {
+      access: "public",
+    });
+
     uploadedFiles.push({
-      url: `/uploads/${filename}`,
+      url: blob.url,
       isPrimary: i === primaryIndex
     });
   }
@@ -106,10 +104,12 @@ async function createProduct(formData: FormData) {
 
     const buffer = Buffer.from(await file.arrayBuffer());
     const filename = `${Date.now()}-feature-${i}-${file.name}`.replace(/\s+/g, "-");
-    const filePath = path.join(uploadDir, filename);
-    await fs.writeFile(filePath, buffer);
 
-    featureUploads[i] = `/uploads/${filename}`;
+    const blob = await put(`features/${filename}`, buffer, {
+      access: "public",
+    });
+
+    featureUploads[i] = blob.url;
   }
 
   const featuresData = featureDescriptions
