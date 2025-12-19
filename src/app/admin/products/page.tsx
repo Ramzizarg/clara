@@ -1,0 +1,173 @@
+import { prisma } from "@/lib/prisma";
+import Link from "next/link";
+import { LayoutDashboard, LineChart, Package, Home, Plus, Trash2, Edit3 } from "lucide-react";
+import { redirect } from "next/navigation";
+import { SignOutButton } from "@/components/admin/SignOutButton";
+
+async function deleteProduct(id: number) {
+  "use server";
+  await prisma.product.delete({ where: { id } });
+  redirect("/admin/products");
+}
+
+export default async function AdminProductsPage() {
+  const products = await prisma.product.findMany({
+    orderBy: { createdAt: "desc" },
+  });
+
+  return (
+    <div className="min-h-screen bg-[#faf7f6] text-zinc-900">
+      {/* Shared admin header */}
+      <header className="bg-zinc-900 text-sm text-zinc-100 shadow">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-8">
+          <div className="flex items-center gap-3">
+            <div className="text-xl font-semibold tracking-tight">
+              Clara <span className="text-[#ff5b5b]">Admin</span>
+            </div>
+          </div>
+          <nav className="hidden items-center gap-6 md:flex">
+            <Link
+              href="/admin"
+              className="inline-flex items-center gap-2 text-xs font-semibold text-zinc-100 hover:text-white transition-colors"
+            >
+              <LayoutDashboard className="h-4 w-4 text-zinc-100" />
+              <span>Dashboard</span>
+            </Link>
+            <Link
+              href="/admin/analytics"
+              className="inline-flex items-center gap-2 text-xs font-semibold text-zinc-100 hover:text-white transition-colors"
+            >
+              <LineChart className="h-4 w-4 text-zinc-100" />
+              <span>Analytiques</span>
+            </Link>
+            <Link
+              href="/admin/products"
+              className="inline-flex items-center gap-2 text-xs font-semibold text-zinc-100 hover:text-white transition-colors"
+            >
+              <Package className="h-4 w-4 text-zinc-100" />
+              <span>Gérer produits</span>
+            </Link>
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 text-xs font-semibold text-zinc-100 hover:text-white transition-colors"
+            >
+              <Home className="h-4 w-4 text-zinc-100" />
+              <span>Accueil</span>
+            </Link>
+            <SignOutButton />
+          </nav>
+        </div>
+      </header>
+
+      <main className="mx-auto max-w-7xl px-8 py-8 space-y-6">
+        {/* Top actions */}
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div className="inline-flex rounded-full border border-zinc-200 bg-white p-1 text-xs font-medium shadow-sm">
+            <button className="rounded-full bg-zinc-900 px-4 py-2 text-white">
+              Tous les produits
+            </button>
+            <Link
+              href="/admin/products/new"
+              className="rounded-full px-4 py-2 text-zinc-700 hover:bg-zinc-100"
+            >
+              Ajouter un produit
+            </Link>
+          </div>
+
+          <Link
+            href="/admin/products/new"
+            className="inline-flex items-center gap-2 rounded-full bg-zinc-900 px-4 py-2 text-xs font-semibold text-white shadow hover:bg-zinc-800"
+          >
+            <Plus className="h-4 w-4" />
+            <span>Ajouter</span>
+          </Link>
+        </div>
+
+        <section className="space-y-4">
+          <h1 className="text-2xl font-semibold tracking-tight">Gestion des produits</h1>
+
+          {products.length === 0 ? (
+            <p className="mt-4 text-sm text-zinc-500">
+              Aucun produit pour le moment. Ajoutez votre premier produit.
+            </p>
+          ) : (
+            <div className="space-y-3">
+              {products.map((product) => (
+                <div
+                  key={product.id}
+                  className="flex items-center justify-between gap-4 rounded-2xl bg-white px-4 py-3 shadow-sm ring-1 ring-zinc-100 hover:shadow-md transition-shadow"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="flex flex-col items-center justify-center text-[10px] text-zinc-400 w-10">
+                      <span className="rounded-full border border-zinc-200 bg-zinc-50 px-2 py-1">#{product.id}</span>
+                    </div>
+                    <div className="h-16 w-16 overflow-hidden rounded-xl bg-zinc-100">
+                      {product.imageUrl ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={product.imageUrl}
+                          alt={product.name}
+                          className="h-full w-full object-cover"
+                        />
+                      ) : (
+                        <div className="flex h-full w-full items-center justify-center text-[10px] text-zinc-400">
+                          Pas d'image
+                        </div>
+                      )}
+                    </div>
+                    <div className="space-y-0.5">
+                      <h2 className="text-sm font-semibold text-zinc-900">
+                        {product.name}
+                      </h2>
+                      <p className="text-[11px] text-zinc-500 line-clamp-1">
+                        {product.description}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-4 text-xs">
+                    <div className="text-right space-y-0.5">
+                      <p className="text-[11px] text-zinc-500 line-through">
+                        {product.price.toFixed(2)} DT
+                      </p>
+                      <p className="text-sm font-semibold text-[#ff1744]">
+                        {(product.salePrice && !Number.isNaN(product.salePrice)
+                          ? product.salePrice
+                          : product.price
+                        ).toFixed(2)} DT
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Link
+                        href={`/product/${product.id}`}
+                        className="inline-flex items-center gap-1 rounded-full border border-sky-200 bg-sky-50 px-4 py-1.5 text-[12px] font-medium text-sky-700 hover:bg-sky-100 hover:border-sky-300"
+                      >
+                        <span>Voir page</span>
+                      </Link>
+                      <Link
+                        href={`/admin/products/${product.id}/edit`}
+                        className="inline-flex items-center gap-1 rounded-full border border-amber-200 bg-amber-50 px-4 py-1.5 text-[12px] font-medium text-amber-800 hover:bg-amber-100 hover:border-amber-300"
+                      >
+                        <Edit3 className="h-3 w-3" />
+                        <span>Editer</span>
+                      </Link>
+                      <form action={deleteProduct.bind(null, product.id)}>
+                        <button
+                          type="submit"
+                          className="inline-flex items-center justify-center rounded-full bg-rose-500 px-4 py-1.5 text-[12px] font-medium text-white hover:bg-rose-600"
+                        >
+                          <Trash2 className="mr-1 h-3 w-3" />
+                          Supprimer
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
+      </main>
+    </div>
+  );
+}
