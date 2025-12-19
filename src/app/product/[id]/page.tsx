@@ -676,7 +676,7 @@ export default function ProductByIdPage() {
 
             <div className="space-y-4">
               {/* Nom Complet */}
-              <div className={`group relative ${fieldErrors.name ? "border border-red-500 rounded-lg bg-white" : ""}`}>
+              <div className="group relative">
                 <label htmlFor="fullName" className="mb-1 block text-sm font-medium text-gray-700">
                   Nom complet <span className="text-red-500">*</span>
                 </label>
@@ -703,7 +703,7 @@ export default function ProductByIdPage() {
               {/* Gouvernorat et Ville */}
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 {/* Gouvernorat Dropdown */}
-                <div className={`group relative ${fieldErrors.governor ? "border border-red-500 rounded-lg bg-white" : ""}`}>
+                <div className="group relative">
                   <label className="mb-1 block text-sm font-medium text-gray-700">
                     Gouvernorat <span className="text-red-500">*</span>
                   </label>
@@ -747,7 +747,7 @@ export default function ProductByIdPage() {
                 </div>
 
                 {/* Ville */}
-                <div className={`group ${fieldErrors.city ? "border border-red-500 rounded-lg bg-white" : ""}`}>
+                <div className="group">
                   <label htmlFor="city" className="mb-1 block text-sm font-medium text-gray-700">
                     Ville <span className="text-red-500">*</span>
                   </label>
@@ -773,7 +773,7 @@ export default function ProductByIdPage() {
               {/* Adresse et Téléphone */}
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 {/* Adresse */}
-                <div className={`group ${fieldErrors.address ? "border border-red-500 rounded-lg bg-white" : ""}`}>
+                <div className="group">
                   <label htmlFor="address" className="mb-1 block text-sm font-medium text-gray-700">
                     Adresse complète <span className="text-red-500">*</span>
                   </label>
@@ -798,7 +798,7 @@ export default function ProductByIdPage() {
                 </div>
 
                 {/* Téléphone */}
-                <div className={`group ${fieldErrors.phone ? "border border-red-500 rounded-lg bg-white" : ""}`}>
+                <div className="group">
                   <label htmlFor="phone" className="mb-1 block text-sm font-medium text-gray-700">
                     Téléphone <span className="text-red-500">*</span>
                   </label>
