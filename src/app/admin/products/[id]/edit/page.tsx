@@ -6,9 +6,7 @@ import { SignOutButton } from "@/components/admin/SignOutButton";
 import { ProductImagesUploader } from "@/components/admin/ProductImagesUploader";
 import { ExistingProductImagesEditor } from "@/components/admin/ExistingProductImagesEditor";
 import { ProductFeaturesEditor } from "@/components/admin/ProductFeaturesEditor";
-import path from "path";
-import { promises as fs } from "fs";
-import * as fsSync from "fs";
+import { put } from "@vercel/blob";
 
 interface EditPageProps {
   params: Promise<{ id: string }>;
@@ -18,6 +16,7 @@ async function updateProduct(id: number, formData: FormData) {
   "use server";
 
   const name = String(formData.get("name") || "").trim();
+  const description = String(formData.get("description") || "").trim();
   const price = parseFloat(String(formData.get("price") || "0"));
   const salePriceRaw = formData.get("salePrice");
   const salePrice = salePriceRaw ? parseFloat(String(salePriceRaw)) : null;
@@ -48,12 +47,6 @@ async function updateProduct(id: number, formData: FormData) {
   const uploadedFiles: { url: string; isPrimary: boolean }[] = [];
   let newPrimaryUrl: string | null = null;
 
-  // Create uploads directory if it doesn't exist
-  const uploadDir = path.join(process.cwd(), "public", "uploads");
-  if (!fsSync.existsSync(uploadDir)) {
-    await fs.mkdir(uploadDir, { recursive: true });
-  }
-
   // Handle new file uploads - only process actual files with names and size > 0
   if (files && files.length > 0) {
     const validFiles = Array.from(files).filter((file) => file && file.name && file.size > 0);
@@ -61,11 +54,12 @@ async function updateProduct(id: number, formData: FormData) {
     for (const file of validFiles) {
       const buffer = Buffer.from(await file.arrayBuffer());
       const filename = `${Date.now()}-${file.name}`.replace(/\s+/g, "-");
-      const filePath = path.join(uploadDir, filename);
-      await fs.writeFile(filePath, buffer);
+      const blob = await put(`products/${filename}`, buffer, {
+        access: "public",
+      });
 
       uploadedFiles.push({
-        url: `/uploads/${filename}`,
+        url: blob.url,
         isPrimary: false,
       });
     }
@@ -161,10 +155,11 @@ async function updateProduct(id: number, formData: FormData) {
 
     const buffer = Buffer.from(await file.arrayBuffer());
     const filename = `${Date.now()}-feature-${i}-${file.name}`.replace(/\s+/g, "-");
-    const filePath = path.join(uploadDir, filename);
-    await fs.writeFile(filePath, buffer);
+    const blob = await put(`features/${filename}`, buffer, {
+      access: "public",
+    });
 
-    featureUploads[i] = `/uploads/${filename}`;
+    featureUploads[i] = blob.url;
   }
 
   // Update product features (characteristics)
@@ -239,6 +234,7 @@ async function updateProduct(id: number, formData: FormData) {
     where: { id },
     data: {
       name,
+      description,
       price,
       salePrice: salePrice && !Number.isNaN(salePrice) ? salePrice : null,
       ...(finalImageUrl ? { imageUrl: finalImageUrl } : {}),
@@ -349,6 +345,20 @@ export default async function EditProductPage({ params }: EditPageProps) {
                 defaultValue={product.name}
                 className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-zinc-900"
                 required
+              />
+            </div>
+
+            {/* Description */}
+            <div className="space-y-1">
+              <label className="text-sm font-medium text-zinc-800" htmlFor="description">
+                Description du produit
+              </label>
+              <textarea
+                id="description"
+                name="description"
+                defaultValue={product.description ?? ""}
+                className="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-zinc-900"
+                rows={3}
               />
             </div>
 
