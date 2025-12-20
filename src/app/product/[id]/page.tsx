@@ -46,6 +46,7 @@ export default function ProductByIdPage() {
   const [zoomImage, setZoomImage] = useState<ProductImageFromApi | null>(null);
   const [activeImageIndex, setActiveImageIndex] = useState<number | null>(null);
   const [activeSlide, setActiveSlide] = useState(0);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isOrderSuccessOpen, setIsOrderSuccessOpen] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState({
@@ -315,45 +316,88 @@ export default function ProductByIdPage() {
     <main className="min-h-screen bg-white text-zinc-900">
       {/* Header similaire à la page d'accueil */}
       <header className="sticky top-0 z-20 border-b border-zinc-200 bg-white/90 backdrop-blur">
-        <div className="mx-auto grid max-w-6xl grid-cols-3 items-center px-6 py-3">
-          {/* Left: brand */}
+        <div className="mx-auto grid max-w-6xl grid-cols-3 items-center px-6 py-4">
+          {/* Left: MENU */}
+          <button
+            type="button"
+            onClick={() => setIsMenuOpen(true)}
+            className="flex items-center gap-2 text-xs font-medium tracking-[0.25em] text-zinc-600 hover:text-zinc-900"
+          >
+            <span className="inline-flex flex-col justify-center gap-[3px] pr-1">
+              <span className="block h-[1px] w-4 bg-zinc-700" />
+              <span className="block h-[1px] w-3 bg-zinc-700" />
+            </span>
+            <span>MENU</span>
+          </button>
+
+          {/* Center: brand (texte seulement) */}
           <p
-            className="flex items-center text-base font-semibold tracking-tight text-zinc-900 md:text-lg"
+            className="flex items-center justify-center text-xl font-semibold tracking-tight text-zinc-900 md:text-2xl"
             style={{ fontFamily: "Abramo, var(--font-geist-sans), system-ui, sans-serif" }}
           >
             Clara
           </p>
 
-          {/* Center: product name */}
-          <div className="flex items-center justify-center px-2 text-center">
-            <p className="max-w-full truncate text-xs font-medium text-zinc-700 md:text-sm">
-              {product.name}
-            </p>
-          </div>
-
-          {/* Right: Contact us -> scroll to form */}
-          <div className="flex items-center justify-end">
-            <button
-              type="button"
-              onClick={handleScrollToForm}
-              className="inline-flex items-center gap-2 rounded-full border border-[#ff6b00]/40 bg-white px-3 py-1.5 text-xs font-semibold text-[#ff6b00] shadow-sm hover:bg-[#fff4e8] md:px-4 md:text-sm"
-            >
+          {/* Right: recherche + panier + coût */}
+          <div className="flex items-center justify-end gap-4 text-xs text-zinc-600">
+            <button className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-zinc-100">
               <svg
-                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden
                 viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.6"
-                className="h-4 w-4"
+                className="h-4 w-4 text-zinc-700"
               >
+                <circle
+                  cx="11"
+                  cy="11"
+                  r="5.5"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                />
                 <path
+                  d="m15.5 15.5 3.5 3.5"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
                   strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684L11 7h4a2 2 0 012 2v1.5M8 15h.01M12 15h.01M16 15h.01M9 21h6a2 2 0 002-2v-5H7v5a2 2 0 002 2z"
                 />
               </svg>
-              <span>Contactez-nous</span>
+              <span className="sr-only">Recherche</span>
             </button>
+
+            <button className="relative flex h-8 w-8 items-center justify-center rounded-full hover:bg-zinc-100">
+              <svg
+                aria-hidden
+                viewBox="0 0 24 24"
+                className="h-4 w-4 text-zinc-700"
+              >
+                <path
+                  d="M7 6h13l-1.2 6H8.5L7 6z"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <circle cx="10" cy="18" r="1.3" fill="currentColor" />
+                <circle cx="17" cy="18" r="1.3" fill="currentColor" />
+                <path
+                  d="M7 6 5.5 3.5H3"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                />
+              </svg>
+              <span className="sr-only">Panier</span>
+              <span className="absolute -right-1 -top-1 flex h-3 w-3 items-center justify-center rounded-full bg-[#ff2d55] text-[8px] font-semibold text-white">
+                0
+              </span>
+            </button>
+
+            <span className="hidden text-[11px] text-zinc-600 sm:inline">
+              Coût - 0.000
+            </span>
           </div>
         </div>
       </header>
@@ -929,6 +973,70 @@ export default function ProductByIdPage() {
           </div>
         </div>
       </footer>
+
+      {/* Sidebar menu opened by hamburger */}
+      {isMenuOpen && (
+        <div className="fixed inset-0 z-40 flex">
+          {/* Overlay */}
+          <button
+            type="button"
+            onClick={() => setIsMenuOpen(false)}
+            className="absolute inset-0 bg-black/40"
+            aria-label="Fermer le menu"
+          />
+
+          {/* Drawer */}
+          <div className="relative z-50 flex h-full w-64 flex-col bg-white shadow-2xl border-r border-zinc-200">
+            <div className="flex items-center justify-between px-4 py-4 border-b border-zinc-200">
+              <span
+                className="text-lg font-semibold tracking-tight text-zinc-900"
+                style={{ fontFamily: "Abramo, var(--font-geist-sans), system-ui, sans-serif" }}
+              >
+                Clara
+              </span>
+              <button
+                type="button"
+                onClick={() => setIsMenuOpen(false)}
+                className="rounded-full p-1 hover:bg-zinc-100"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 text-zinc-700"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            <nav className="flex-1 px-4 py-4 text-sm text-zinc-800">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                className="flex w-full items-center justify-between rounded-lg px-2 py-2 hover:bg-zinc-50"
+              >
+                <span className="font-medium truncate">{product.name}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  orderSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+                }}
+                className="mt-2 flex w-full items-center justify-between rounded-lg px-2 py-2 hover:bg-zinc-50"
+              >
+                <span className="font-medium">Contactez-nous</span>
+              </button>
+            </nav>
+          </div>
+        </div>
+      )}
 
       {/* Mobile bottom bar: price summary + order button (stacked vertically) */}
       <div className="fixed inset-x-0 bottom-0 z-30 border-t border-black/5 bg-white/95 px-3 py-3 backdrop-blur md:hidden">
