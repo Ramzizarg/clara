@@ -1012,6 +1012,9 @@ export default function ProductByIdPage() {
             </div>
 
             <nav className="flex-1 px-4 py-4 text-sm text-zinc-800">
+              <p className="mb-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-zinc-500">
+                Produits
+              </p>
               <button
                 type="button"
                 onClick={() => {
@@ -1023,13 +1026,16 @@ export default function ProductByIdPage() {
                 <span className="font-medium truncate">{product.name}</span>
               </button>
 
+              <p className="mt-4 mb-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-zinc-500">
+                Contact
+              </p>
               <button
                 type="button"
                 onClick={() => {
                   setIsMenuOpen(false);
                   orderSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
                 }}
-                className="mt-2 flex w-full items-center justify-between rounded-lg px-2 py-2 hover:bg-zinc-50"
+                className="flex w-full items-center justify-between rounded-lg px-2 py-2 hover:bg-zinc-50"
               >
                 <span className="font-medium">Contactez-nous</span>
               </button>
