@@ -981,12 +981,12 @@ export default function ProductByIdPage() {
           <button
             type="button"
             onClick={() => setIsMenuOpen(false)}
-            className="absolute inset-0 bg-black/40"
+            className="absolute inset-0 bg-black/40 transition-opacity duration-300 ease-out"
             aria-label="Fermer le menu"
           />
 
           {/* Drawer */}
-          <div className="relative z-50 flex h-full w-64 flex-col bg-white shadow-2xl border-r border-zinc-200">
+          <div className="relative z-50 flex h-full w-64 flex-col bg-white shadow-2xl border-r border-zinc-200 transform -translate-x-full animate-[menuSlideIn_0.25s_ease-out_forwards]">
             <div className="flex items-center justify-between px-4 py-4 border-b border-zinc-200">
               <span
                 className="text-lg font-semibold tracking-tight text-zinc-900"
