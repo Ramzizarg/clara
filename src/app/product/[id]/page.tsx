@@ -315,84 +315,45 @@ export default function ProductByIdPage() {
     <main className="min-h-screen bg-white text-zinc-900">
       {/* Header similaire à la page d'accueil */}
       <header className="sticky top-0 z-20 border-b border-zinc-200 bg-white/90 backdrop-blur">
-        <div className="mx-auto grid max-w-6xl grid-cols-3 items-center px-6 py-4">
-          {/* Left: MENU */}
-          <div className="flex items-center gap-2 text-xs font-medium tracking-[0.25em] text-zinc-600">
-            <span className="inline-flex flex-col justify-center gap-[3px] pr-1">
-              <span className="block h-[1px] w-4 bg-zinc-700" />
-              <span className="block h-[1px] w-3 bg-zinc-700" />
-            </span>
-            <span>MENU</span>
-          </div>
-
-          {/* Center: brand (texte seulement) */}
+        <div className="mx-auto grid max-w-6xl grid-cols-3 items-center px-6 py-3">
+          {/* Left: brand */}
           <p
-            className="flex items-center justify-center text-xl font-semibold tracking-tight text-zinc-900 md:text-2xl"
+            className="flex items-center text-base font-semibold tracking-tight text-zinc-900 md:text-lg"
             style={{ fontFamily: "Abramo, var(--font-geist-sans), system-ui, sans-serif" }}
           >
             Clara
           </p>
 
-          {/* Right: recherche + panier + coût */}
-          <div className="flex items-center justify-end gap-4 text-xs text-zinc-600">
-            <button className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-zinc-100">
-              <svg
-                aria-hidden
-                viewBox="0 0 24 24"
-                className="h-4 w-4 text-zinc-700"
-              >
-                <circle
-                  cx="11"
-                  cy="11"
-                  r="5.5"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                />
-                <path
-                  d="m15.5 15.5 3.5 3.5"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                />
-              </svg>
-              <span className="sr-only">Recherche</span>
-            </button>
+          {/* Center: product name */}
+          <div className="flex items-center justify-center px-2 text-center">
+            <p className="max-w-full truncate text-xs font-medium text-zinc-700 md:text-sm">
+              {product.name}
+            </p>
+          </div>
 
-            <button className="relative flex h-8 w-8 items-center justify-center rounded-full hover:bg-zinc-100">
+          {/* Right: Contact us -> scroll to form */}
+          <div className="flex items-center justify-end">
+            <button
+              type="button"
+              onClick={handleScrollToForm}
+              className="inline-flex items-center gap-2 rounded-full border border-[#ff6b00]/40 bg-white px-3 py-1.5 text-xs font-semibold text-[#ff6b00] shadow-sm hover:bg-[#fff4e8] md:px-4 md:text-sm"
+            >
               <svg
-                aria-hidden
+                xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
-                className="h-4 w-4 text-zinc-700"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                className="h-4 w-4"
               >
                 <path
-                  d="M7 6h13l-1.2 6H8.5L7 6z"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                />
-                <circle cx="10" cy="18" r="1.3" fill="currentColor" />
-                <circle cx="17" cy="18" r="1.3" fill="currentColor" />
-                <path
-                  d="M7 6 5.5 3.5H3"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
+                  d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684L11 7h4a2 2 0 012 2v1.5M8 15h.01M12 15h.01M16 15h.01M9 21h6a2 2 0 002-2v-5H7v5a2 2 0 002 2z"
                 />
               </svg>
-              <span className="sr-only">Panier</span>
-              <span className="absolute -right-1 -top-1 flex h-3 w-3 items-center justify-center rounded-full bg-[#ff2d55] text-[8px] font-semibold text-white">
-                0
-              </span>
+              <span>Contactez-nous</span>
             </button>
-
-            <span className="hidden text-[11px] text-zinc-600 sm:inline">
-              Coût - 0.000
-            </span>
           </div>
         </div>
       </header>
