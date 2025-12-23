@@ -126,8 +126,8 @@ export default async function AdminProductsPage() {
                   </div>
 
                   <div className="flex flex-col gap-3 text-xs md:flex-row md:items-center md:gap-4">
-                    {/* Mobile: price badge in red pill on the right */}
-                    <div className="flex flex-col items-end gap-1 md:hidden">
+                    {/* Mobile: price badge in red pill, aligned with content on the left */}
+                    <div className="flex flex-col items-start gap-1 md:hidden">
                       <p className="text-[11px] text-zinc-500 line-through">
                         {product.price.toFixed(2)} DT
                       </p>
