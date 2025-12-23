@@ -61,22 +61,26 @@ export default async function AdminProductsPage() {
 
       <main className="mx-auto max-w-7xl px-4 py-8 space-y-6 md:px-8">
         {/* Top actions */}
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div className="inline-flex rounded-full border border-zinc-200 bg-white p-1 text-xs font-medium shadow-sm">
-            <button className="rounded-full bg-zinc-900 px-4 py-2 text-white">
-              Tous les produits
-            </button>
-            <Link
-              href="/admin/products/new"
-              className="rounded-full px-4 py-2 text-zinc-700 hover:bg-zinc-100"
-            >
-              Ajouter un produit
-            </Link>
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          {/* Tabs: Tous les produits / Ajouter un produit */}
+          <div className="w-full rounded-full border border-zinc-200 bg-white p-1 text-xs font-medium shadow-sm md:inline-flex md:w-auto">
+            <div className="flex w-full gap-1">
+              <button className="flex-1 rounded-full bg-zinc-900 px-3 py-2 text-center text-white">
+                Tous les produits
+              </button>
+              <Link
+                href="/admin/products/new"
+                className="flex-1 rounded-full px-3 py-2 text-center text-zinc-700 hover:bg-zinc-100"
+              >
+                Ajouter un produit
+              </Link>
+            </div>
           </div>
 
+          {/* Add button: full-width bar on mobile, pill on desktop */}
           <Link
             href="/admin/products/new"
-            className="inline-flex items-center gap-2 rounded-full bg-zinc-900 px-4 py-2 text-xs font-semibold text-white shadow hover:bg-zinc-800"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-zinc-900 px-4 py-2 text-xs font-semibold text-white shadow hover:bg-zinc-800 md:w-auto"
           >
             <Plus className="h-4 w-4" />
             <span>Ajouter</span>
@@ -101,7 +105,7 @@ export default async function AdminProductsPage() {
                     <div className="flex flex-col items-center justify-center text-[10px] text-zinc-400 w-10">
                       <span className="rounded-full border border-zinc-200 bg-zinc-50 px-2 py-1">#{product.id}</span>
                     </div>
-                    <div className="h-16 w-16 overflow-hidden rounded-xl bg-zinc-100">
+                    <div className="h-20 w-20 overflow-hidden rounded-xl bg-zinc-100">
                       {product.imageUrl ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
@@ -122,24 +126,24 @@ export default async function AdminProductsPage() {
                       <p className="text-[11px] text-zinc-500 line-clamp-1">
                         {product.description}
                       </p>
+
+                      {/* Mobile: price under product name */}
+                      <div className="mt-1 flex flex-col items-start gap-1 text-xs md:hidden">
+                        <p className="text-[11px] text-zinc-500 line-through">
+                          {product.price.toFixed(2)} DT
+                        </p>
+                        <span className="inline-flex items-center rounded-full bg-[#ff1744] px-3 py-1 text-xs font-semibold text-white shadow-sm">
+                          {(product.salePrice && !Number.isNaN(product.salePrice)
+                            ? product.salePrice
+                            : product.price
+                          ).toFixed(2)} DT
+                        </span>
+                      </div>
                     </div>
                   </div>
 
                   <div className="flex flex-col gap-3 text-xs md:flex-row md:items-center md:gap-4">
-                    {/* Mobile: price badge in red pill, aligned with content on the left */}
-                    <div className="flex flex-col items-start gap-1 md:hidden">
-                      <p className="text-[11px] text-zinc-500 line-through">
-                        {product.price.toFixed(2)} DT
-                      </p>
-                      <span className="inline-flex items-center rounded-full bg-[#ff1744] px-3 py-1 text-xs font-semibold text-white shadow-sm">
-                        {(product.salePrice && !Number.isNaN(product.salePrice)
-                          ? product.salePrice
-                          : product.price
-                        ).toFixed(2)} DT
-                      </span>
-                    </div>
-
-                    {/* Desktop: stacked price text as before */}
+                    {/* Desktop: stacked price text on the right */}
                     <div className="hidden text-right space-y-0.5 md:block">
                       <p className="text-[11px] text-zinc-500 line-through">
                         {product.price.toFixed(2)} DT

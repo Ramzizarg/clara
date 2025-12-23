@@ -222,13 +222,20 @@ export default async function AdminDashboard({
 
         {/* Recent orders */}
         <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-zinc-100 hover:shadow-md transition-shadow">
-          <div className="border-b border-zinc-100 px-5 py-3 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-            <div>
-              <h2 className="text-sm font-semibold text-zinc-900">
+          <div className="border-b border-zinc-100 px-5 py-3 flex items-start justify-between gap-4">
+            <div className="leading-tight">
+              {/* Mobile: two-line title */}
+              <h2 className="block text-base font-semibold text-zinc-900 md:hidden">
+                Commandes
+                <br />
+                récentes
+              </h2>
+              {/* Desktop: single-line title */}
+              <h2 className="hidden text-base font-semibold text-zinc-900 md:block md:text-lg">
                 Commandes récentes
               </h2>
             </div>
-            <div className="flex flex-wrap items-center gap-2 text-[11px] md:justify-end">
+            <div className="flex flex-col items-start gap-2 text-[11px] md:flex-row md:flex-wrap md:items-center md:justify-end">
               <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-50 rounded-full">
                 <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
                 <span className="text-xs font-medium text-emerald-700">
