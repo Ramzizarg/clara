@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "next/navigation";
+import emailjs from "@emailjs/browser";
 
 interface ProductImageFromApi {
   id: number;
@@ -295,6 +296,29 @@ export default function ProductByIdPage() {
       if (!res.ok) {
         setFormError("Une erreur est survenue lors de l'envoi de votre commande. Veuillez réessayer.");
         return;
+      }
+
+      // Try to send notification email via EmailJS (client-side)
+      try {
+        await emailjs.send(
+          "service_8mo5zdf",
+          "template_nrf56fs",
+          {
+            to_email: "clara.shop.tn@gmail.com",
+            product_name: product.name,
+            product_id: product.id,
+            pack: selectedPack,
+            total: total.toFixed(2),
+            name,
+            phone,
+            address,
+            governor,
+            city,
+          },
+          "yZvRvrVIR1bQvMzrS" 
+        );
+      } catch (err) {
+        console.error("Erreur lors de l'envoi de l'email EmailJS", err);
       }
 
       setFormError(null);
