@@ -124,31 +124,31 @@ export default async function AnalyticsPage() {
           <nav className="flex items-center gap-4 overflow-x-auto md:gap-6">
             <Link
               href="/admin"
-              className="inline-flex items-center gap-2 text-xs font-semibold text-zinc-100 hover:text-white transition-colors"
+              className="inline-flex items-center justify-center text-xs font-semibold text-zinc-100 hover:text-white transition-colors"
             >
               <LayoutDashboard className="h-4 w-4 text-zinc-100" />
-              <span>Dashboard</span>
+              <span className="sr-only">Dashboard</span>
             </Link>
             <Link
               href="/admin/analytics"
-              className="inline-flex items-center gap-2 text-xs font-semibold text-zinc-100 hover:text-white transition-colors"
+              className="inline-flex items-center justify-center text-xs font-semibold text-zinc-100 hover:text-white transition-colors"
             >
               <LineChart className="h-4 w-4 text-zinc-100" />
-              <span>Analytiques</span>
+              <span className="sr-only">Analytiques</span>
             </Link>
             <Link
               href="/admin/products"
-              className="inline-flex items-center gap-2 text-xs font-semibold text-zinc-100 hover:text-white transition-colors"
+              className="inline-flex items-center justify-center text-xs font-semibold text-zinc-100 hover:text-white transition-colors"
             >
               <Package className="h-4 w-4 text-zinc-100" />
-              <span>Gérer produits</span>
+              <span className="sr-only">Gérer produits</span>
             </Link>
             <Link
               href="/"
-              className="inline-flex items-center gap-2 text-xs font-semibold text-zinc-100 hover:text-white transition-colors"
+              className="inline-flex items-center justify-center text-xs font-semibold text-zinc-100 hover:text-white transition-colors"
             >
               <Home className="h-4 w-4 text-zinc-100" />
-              <span>Accueil</span>
+              <span className="sr-only">Accueil</span>
             </Link>
             <SignOutButton />
           </nav>

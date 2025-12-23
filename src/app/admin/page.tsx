@@ -32,7 +32,15 @@ async function updateOrderAdmin(formData: FormData) {
   revalidatePath("/admin");
 }
 
-export default async function AdminDashboard() {
+export default async function AdminDashboard({
+  searchParams,
+}: {
+  searchParams?: { page?: string };
+}) {
+  // Pagination basique: 10 commandes par page
+  const pageSize = 10;
+  const currentPage = Math.max(1, Number(searchParams?.page ?? "1") || 1);
+
   // Récupération des statistiques et des commandes en base
   const totalOrders = await prisma.order.count();
   const productsCount = await prisma.product.count();
@@ -41,7 +49,8 @@ export default async function AdminDashboard() {
   });
   const orders = await prisma.order.findMany({
     orderBy: { createdAt: "desc" },
-    take: 20,
+    skip: (currentPage - 1) * pageSize,
+    take: pageSize,
   });
 
   const SHIPPING_COST = 8; // même coût que sur la page produit
@@ -98,6 +107,8 @@ export default async function AdminDashboard() {
     {} as Record<string, number>
   );
 
+  const totalPages = Math.max(1, Math.ceil(totalOrders / pageSize));
+
   return (
     <div className="min-h-screen bg-[#faf7f6] text-zinc-900">
       {/* Top navigation bar */}
@@ -109,30 +120,30 @@ export default async function AdminDashboard() {
             </div>
           </div>
           <nav className="flex items-center gap-4 overflow-x-auto md:gap-6">
-            <button className="inline-flex items-center gap-2 text-xs font-semibold text-zinc-100 hover:text-white transition-colors">
+            <button className="inline-flex items-center justify-center text-xs font-semibold text-zinc-100 hover:text-white transition-colors">
               <LayoutDashboard className="h-4 w-4 text-zinc-100" />
-              <span>Dashboard</span>
+              <span className="sr-only">Dashboard</span>
             </button>
             <Link
               href="/admin/analytics"
-              className="inline-flex items-center gap-2 text-xs font-semibold text-zinc-100 hover:text-white transition-colors"
+              className="inline-flex items-center justify-center text-xs font-semibold text-zinc-100 hover:text-white transition-colors"
             >
               <LineChart className="h-4 w-4 text-zinc-100" />
-              <span>Analytiques</span>
+              <span className="sr-only">Analytiques</span>
             </Link>
             <Link
               href="/admin/products"
-              className="inline-flex items-center gap-2 text-xs font-semibold text-zinc-100 hover:text-white transition-colors"
+              className="inline-flex items-center justify-center text-xs font-semibold text-zinc-100 hover:text-white transition-colors"
             >
               <Package className="h-4 w-4 text-zinc-100" />
-              <span>Gérer produits</span>
+              <span className="sr-only">Gérer produits</span>
             </Link>
             <Link
               href="/"
-              className="inline-flex items-center gap-2 text-xs font-semibold text-zinc-100 hover:text-white transition-colors"
+              className="inline-flex items-center justify-center text-xs font-semibold text-zinc-100 hover:text-white transition-colors"
             >
               <Home className="h-4 w-4 text-zinc-100" />
-              <span>Accueil</span>
+              <span className="sr-only">Accueil</span>
             </Link>
             <SignOutButton />
           </nav>
@@ -307,6 +318,28 @@ export default async function AdminDashboard() {
           {recentOrders.length === 0 && (
             <div className="px-6 py-8 text-center text-sm text-zinc-500">
               Aucune commande récente pour le moment.
+            </div>
+          )}
+          {/* Pagination */}
+          {recentOrders.length > 0 && totalPages > 1 && (
+            <div className="flex justify-center gap-2 px-6 py-4">
+              {Array.from({ length: totalPages }).map((_, index) => {
+                const page = index + 1;
+                const isActive = page === currentPage;
+                return (
+                  <Link
+                    key={page}
+                    href={page === 1 ? "/admin" : `/admin?page=${page}`}
+                    className={`flex h-8 w-8 items-center justify-center rounded-full border text-xs font-medium transition-colors ${
+                      isActive
+                        ? "border-zinc-900 bg-zinc-900 text-white"
+                        : "border-zinc-300 bg-white text-zinc-700 hover:bg-zinc-100"
+                    }`}
+                  >
+                    {page}
+                  </Link>
+                );
+              })}
             </div>
           )}
         </div>
