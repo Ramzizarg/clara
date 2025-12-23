@@ -10,7 +10,7 @@ export function SignOutButton() {
       onClick={() => signOut({ callbackUrl: "/login" })}
       className="inline-flex items-center justify-center rounded-full border border-zinc-300 px-3 py-1.5 text-xs font-medium text-zinc-100 hover:bg-white/5 hover:border-zinc-100 transition-colors"
     >
-      <LogOut className="h-4 w-4 text-zinc-100" />
+      <LogOut className="h-5 w-5 md:h-4 md:w-4 text-zinc-100" />
       <span className="sr-only">Déconnexion</span>
     </button>
   );
