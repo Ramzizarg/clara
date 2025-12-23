@@ -142,13 +142,13 @@ export default function NewProductPage() {
     <div className="min-h-screen bg-[#faf7f6] text-zinc-900 flex flex-col">
       {/* Shared admin header */}
       <header className="bg-zinc-900 text-sm text-zinc-100 shadow">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-8">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:px-8">
           <div className="flex items-center gap-3">
             <div className="text-xl font-semibold tracking-tight">
               Clara <span className="text-[#ff5b5b]">Admin</span>
             </div>
           </div>
-          <nav className="hidden items-center gap-6 md:flex">
+          <nav className="flex items-center gap-4 overflow-x-auto md:gap-6">
             <Link
               href="/admin"
               className="inline-flex items-center gap-2 text-xs font-semibold text-zinc-100 hover:text-white transition-colors"

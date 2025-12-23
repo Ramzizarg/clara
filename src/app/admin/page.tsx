@@ -108,7 +108,7 @@ export default async function AdminDashboard() {
               Clara <span className="text-[#ff5b5b]">Admin</span>
             </div>
           </div>
-          <nav className="hidden items-center gap-6 md:flex">
+          <nav className="flex items-center gap-4 overflow-x-auto md:gap-6">
             <button className="inline-flex items-center gap-2 text-xs font-semibold text-zinc-100 hover:text-white transition-colors">
               <LayoutDashboard className="h-4 w-4 text-zinc-100" />
               <span>Dashboard</span>
