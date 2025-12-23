@@ -113,7 +113,7 @@ export default async function AdminDashboard({
     <div className="min-h-screen bg-[#faf7f6] text-zinc-900">
       {/* Top navigation bar */}
       <header className="bg-zinc-900 text-sm text-zinc-100 shadow">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-8">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:px-8">
           <div className="flex items-center gap-3">
             <div className="text-xl font-semibold tracking-tight">
               Clara <span className="text-[#ff5b5b]">Admin</span>
@@ -223,13 +223,10 @@ export default async function AdminDashboard({
         {/* Recent orders */}
         <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-zinc-100 hover:shadow-md transition-shadow">
           <div className="border-b border-zinc-100 px-5 py-3 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-            <div className="space-y-0.5">
+            <div>
               <h2 className="text-sm font-semibold text-zinc-900">
                 Commandes récentes
               </h2>
-              <p className="text-xs text-zinc-500">
-                Vue d'ensemble des dernières commandes clients.
-              </p>
             </div>
             <div className="flex flex-wrap items-center gap-2 text-[11px] md:justify-end">
               <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-50 rounded-full">

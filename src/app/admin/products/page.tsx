@@ -59,7 +59,7 @@ export default async function AdminProductsPage() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-7xl px-8 py-8 space-y-6">
+      <main className="mx-auto max-w-7xl px-4 py-8 space-y-6 md:px-8">
         {/* Top actions */}
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="inline-flex rounded-full border border-zinc-200 bg-white p-1 text-xs font-medium shadow-sm">
@@ -95,9 +95,9 @@ export default async function AdminProductsPage() {
               {products.map((product) => (
                 <div
                   key={product.id}
-                  className="flex items-center justify-between gap-4 rounded-2xl bg-white px-4 py-3 shadow-sm ring-1 ring-zinc-100 hover:shadow-md transition-shadow"
+                  className="flex flex-col gap-4 rounded-2xl bg-white px-4 py-3 shadow-sm ring-1 ring-zinc-100 hover:shadow-md transition-shadow md:flex-row md:items-center md:justify-between"
                 >
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-start gap-3 md:items-center md:gap-4">
                     <div className="flex flex-col items-center justify-center text-[10px] text-zinc-400 w-10">
                       <span className="rounded-full border border-zinc-200 bg-zinc-50 px-2 py-1">#{product.id}</span>
                     </div>
@@ -125,8 +125,8 @@ export default async function AdminProductsPage() {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-4 text-xs">
-                    <div className="text-right space-y-0.5">
+                  <div className="flex flex-col gap-3 text-xs md:flex-row md:items-center md:gap-4">
+                    <div className="text-left space-y-0.5 md:text-right">
                       <p className="text-[11px] text-zinc-500 line-through">
                         {product.price.toFixed(2)} DT
                       </p>
