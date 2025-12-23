@@ -28,31 +28,31 @@ export default async function AdminProductsPage() {
           <nav className="flex items-center gap-4 overflow-x-auto md:gap-6">
             <Link
               href="/admin"
-              className="inline-flex items-center justify-center text-xs font-semibold text-zinc-100 hover:text-white transition-colors"
+              className="inline-flex items-center justify-center gap-1.5 text-xs font-semibold text-zinc-100 hover:text-white transition-colors"
             >
               <LayoutDashboard className="h-4 w-4 text-zinc-100" />
-              <span className="sr-only">Dashboard</span>
+              <span className="hidden md:inline">Dashboard</span>
             </Link>
             <Link
               href="/admin/analytics"
-              className="inline-flex items-center justify-center text-xs font-semibold text-zinc-100 hover:text-white transition-colors"
+              className="inline-flex items-center justify-center gap-1.5 text-xs font-semibold text-zinc-100 hover:text-white transition-colors"
             >
               <LineChart className="h-4 w-4 text-zinc-100" />
-              <span className="sr-only">Analytiques</span>
+              <span className="hidden md:inline">Analytiques</span>
             </Link>
             <Link
               href="/admin/products"
-              className="inline-flex items-center justify-center text-xs font-semibold text-zinc-100 hover:text-white transition-colors"
+              className="inline-flex items-center justify-center gap-1.5 text-xs font-semibold text-zinc-100 hover:text-white transition-colors"
             >
               <Package className="h-4 w-4 text-zinc-100" />
-              <span className="sr-only">Gérer produits</span>
+              <span className="hidden md:inline">Gérer produits</span>
             </Link>
             <Link
               href="/"
-              className="inline-flex items-center justify-center text-xs font-semibold text-zinc-100 hover:text-white transition-colors"
+              className="inline-flex items-center justify-center gap-1.5 text-xs font-semibold text-zinc-100 hover:text-white transition-colors"
             >
               <Home className="h-4 w-4 text-zinc-100" />
-              <span className="sr-only">Accueil</span>
+              <span className="hidden md:inline">Accueil</span>
             </Link>
             <SignOutButton />
           </nav>
@@ -126,7 +126,21 @@ export default async function AdminProductsPage() {
                   </div>
 
                   <div className="flex flex-col gap-3 text-xs md:flex-row md:items-center md:gap-4">
-                    <div className="text-left space-y-0.5 md:text-right">
+                    {/* Mobile: price badge in red pill on the right */}
+                    <div className="flex flex-col items-end gap-1 md:hidden">
+                      <p className="text-[11px] text-zinc-500 line-through">
+                        {product.price.toFixed(2)} DT
+                      </p>
+                      <span className="inline-flex items-center rounded-full bg-[#ff1744] px-3 py-1 text-xs font-semibold text-white shadow-sm">
+                        {(product.salePrice && !Number.isNaN(product.salePrice)
+                          ? product.salePrice
+                          : product.price
+                        ).toFixed(2)} DT
+                      </span>
+                    </div>
+
+                    {/* Desktop: stacked price text as before */}
+                    <div className="hidden text-right space-y-0.5 md:block">
                       <p className="text-[11px] text-zinc-500 line-through">
                         {product.price.toFixed(2)} DT
                       </p>
