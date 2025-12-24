@@ -235,9 +235,9 @@ export default async function AdminDashboard({
                 Commandes récentes
               </h2>
             </div>
-            <div className="flex flex-col items-start gap-2 text-[11px] md:flex-row md:flex-wrap md:items-center md:justify-end">
+            <div className="flex flex-col items-end gap-2 text-[11px] md:flex-row md:flex-wrap md:items-center md:justify-end">
               {/* Row 1: Livrée + En attente */}
-              <div className="flex w-full items-center gap-2 md:w-auto">
+              <div className="flex w-full items-center justify-end gap-2 md:w-auto">
                 <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-50 rounded-full">
                   <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
                   <span className="text-xs font-medium text-emerald-700">
@@ -253,7 +253,7 @@ export default async function AdminDashboard({
               </div>
 
               {/* Row 2: Retour + Refusée */}
-              <div className="flex w-full items-center gap-2 md:w-auto">
+              <div className="flex w-full items-center justify-end gap-2 md:w-auto">
                 <div className="flex items-center gap-2 px-3 py-1.5 bg-sky-50 rounded-full">
                   <span className="h-2.5 w-2.5 rounded-full bg-sky-500" />
                   <span className="text-xs font-medium text-sky-700">
