@@ -1176,6 +1176,37 @@ export default function ProductByIdPage() {
         </div>
       )}
 
+      {/* Global Contact Modal - visible on desktop and mobile */}
+      {isContactOpen && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 p-4">
+          <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-2xl">
+            <div className="text-center">
+              <h3 className="text-2xl font-bold text-gray-900">Contactez-nous</h3>
+              <p className="mt-3 text-sm text-gray-600">
+                Pour toute question ou pour passer commande par téléphone, vous pouvez nous joindre :
+              </p>
+              <div className="mt-4 space-y-2 text-sm text-gray-800">
+                <p>
+                  <span className="font-semibold">Téléphone :</span> +216 50 556 197
+                </p>
+                <p>
+                  <span className="font-semibold">Email :</span> Clara.shop.tn@gmail.com
+                </p>
+              </div>
+              <div className="mt-6">
+                <button
+                  type="button"
+                  onClick={() => setIsContactOpen(false)}
+                  className="w-full rounded-full bg-zinc-900 px-6 py-3 text-base font-medium text-white shadow-lg hover:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-zinc-900 transition-all duration-200"
+                >
+                  Fermer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {isZoomOpen && zoomImage && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4">
           <button
