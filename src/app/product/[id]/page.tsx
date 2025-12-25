@@ -50,6 +50,7 @@ export default function ProductByIdPage() {
   const [activeSlide, setActiveSlide] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isOrderSuccessOpen, setIsOrderSuccessOpen] = useState(false);
+  const [isContactOpen, setIsContactOpen] = useState(false);
   const [allProducts, setAllProducts] = useState<{ id: number; name: string }[]>([]);
   const [formError, setFormError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState({
@@ -541,6 +542,32 @@ export default function ProductByIdPage() {
                 window.location.reload();
               }}
               className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[#ff6b00] to-[#ff1744] px-4 py-2 text-xs font-semibold text-white shadow hover:brightness-95"
+            >
+              Fermer
+            </button>
+          </div>
+        </div>
+      )}
+
+      {isContactOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4">
+          <div className="w-full max-w-sm rounded-2xl bg-white p-6 text-center shadow-xl">
+            <h2 className="mb-2 text-lg font-semibold text-zinc-900">Contactez-nous</h2>
+            <p className="mb-3 text-xs text-zinc-600">
+              Pour toute question ou pour passer commande par téléphone, vous pouvez nous joindre :
+            </p>
+            <div className="mb-4 space-y-2 text-sm text-zinc-800">
+              <p>
+                <span className="font-semibold">Téléphone :</span> +216 50 556 197
+              </p>
+              <p>
+                <span className="font-semibold">Email :</span> Clara.shop.tn@gmail.com
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setIsContactOpen(false)}
+              className="inline-flex items-center justify-center rounded-full bg-zinc-900 px-4 py-2 text-xs font-semibold text-white shadow hover:bg-zinc-800"
             >
               Fermer
             </button>
@@ -1108,7 +1135,7 @@ export default function ProductByIdPage() {
                 type="button"
                 onClick={() => {
                   setIsMenuOpen(false);
-                  orderSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+                  setIsContactOpen(true);
                 }}
                 className="flex w-full items-center justify-between rounded-lg px-2 py-2 hover:bg-zinc-50"
               >
