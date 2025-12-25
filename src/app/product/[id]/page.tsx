@@ -127,7 +127,10 @@ export default function ProductByIdPage() {
   if (loading) {
     return (
       <main className="min-h-screen flex items-center justify-center bg-white text-zinc-900">
-        <p className="text-lg">Chargement du produit...</p>
+        <div className="flex flex-col items-center gap-3">
+          <div className="h-10 w-10 rounded-full border-2 border-zinc-200 border-t-[#ff6b00] animate-spin" />
+          <p className="text-sm text-zinc-600 tracking-wide uppercase">Chargement du produit...</p>
+        </div>
       </main>
     );
   }
@@ -1162,7 +1165,7 @@ export default function ProductByIdPage() {
               <span className="font-semibold uppercase tracking-wide text-[10px] text-zinc-900">
                 Prix total
               </span>
-              <span className="text-sm font-extrabold text-emerald-600">
+              <span className="text-sm font-extrabold text-[#ff1744]">
                 {total.toFixed(2)} DT
               </span>
             </div>
