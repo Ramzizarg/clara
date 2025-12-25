@@ -22,11 +22,28 @@ export const metadata: Metadata = {
       { url: "/Carla.png", type: "image/png", sizes: "32x32" },
       { url: "/Carla.png", type: "image/png", sizes: "192x192" },
     ],
-    apple: [
-      { url: "/Carla.png" }
-    ]
+    apple: [{ url: "/Carla.png" }],
   },
   manifest: "/site.webmanifest",
+  openGraph: {
+    title: "Clara | Boutique officielle",
+    description: "Découvrez les produits Clara et commandez facilement en ligne.",
+    type: "website",
+    images: [
+      {
+        url: "/Carla.png",
+        width: 512,
+        height: 512,
+        alt: "Clara Boutique officielle",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Clara | Boutique officielle",
+    description: "Découvrez les produits Clara et commandez facilement en ligne.",
+    images: ["/Carla.png"],
+  },
 };
 
 export default function RootLayout({
@@ -35,7 +52,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-scroll-behavior="smooth">
+    <html lang="fr" data-scroll-behavior="smooth">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

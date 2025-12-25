@@ -236,6 +236,9 @@ export default function ProductByIdPage() {
     "Kebili",
   ];
 
+  // Name used in sidebar menu: only keep part before " - " (to hide Arabic suffix)
+  const sidebarProductName = product.name.split(" - ")[0];
+
   const handleMobileScroll = () => {
     const el = carouselRef.current;
     if (!el) return;
@@ -1047,7 +1050,7 @@ export default function ProductByIdPage() {
                 }}
                 className="flex w-full items-center justify-between rounded-lg px-2 py-2 hover:bg-zinc-50"
               >
-                <span className="font-medium truncate">{product.name}</span>
+                <span className="font-medium truncate">{sidebarProductName}</span>
               </button>
 
               <p className="mt-4 mb-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-zinc-500">
