@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import emailjs from "@emailjs/browser";
 
 interface ProductImageFromApi {
@@ -36,6 +36,7 @@ interface Product {
 
 export default function ProductByIdPage() {
   const params = useParams<{ id: string }>();
+  const router = useRouter();
   const productId = Number(params?.id); // Convert to number for the API call
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
@@ -49,6 +50,7 @@ export default function ProductByIdPage() {
   const [activeSlide, setActiveSlide] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isOrderSuccessOpen, setIsOrderSuccessOpen] = useState(false);
+  const [allProducts, setAllProducts] = useState<{ id: number; name: string }[]>([]);
   const [formError, setFormError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState({
     name: false,
@@ -86,6 +88,22 @@ export default function ProductByIdPage() {
       fetchProduct();
     }
   }, [productId]);
+
+  // Load list of all products for the sidebar menu
+  useEffect(() => {
+    const fetchAllProducts = async () => {
+      try {
+        const res = await fetch("/api/products", { cache: "no-store" });
+        if (!res.ok) return;
+        const data: { id: number; name: string }[] = await res.json();
+        setAllProducts(data);
+      } catch {
+        // silently ignore sidebar list errors
+      }
+    };
+
+    fetchAllProducts();
+  }, []);
 
   // When images load or change, default the active image to the primary one
   useEffect(() => {
@@ -1042,16 +1060,46 @@ export default function ProductByIdPage() {
               <p className="mb-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-zinc-500">
                 Produits
               </p>
-              <button
-                type="button"
-                onClick={() => {
-                  setIsMenuOpen(false);
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }}
-                className="flex w-full items-center justify-between rounded-lg px-2 py-2 hover:bg-zinc-50"
-              >
-                <span className="font-medium truncate">{sidebarProductName}</span>
-              </button>
+
+              {/* List all products when available; fallback to current product only */}
+              {allProducts.length > 0 ? (
+                <div className="space-y-1">
+                  {allProducts.map((p) => {
+                    const shortName = p.name.split(" - ")[0];
+                    const isCurrent = p.id === product.id;
+                    return (
+                      <button
+                        key={p.id}
+                        type="button"
+                        onClick={() => {
+                          setIsMenuOpen(false);
+                          if (!isCurrent) {
+                            router.push(`/product/${p.id}`);
+                          } else {
+                            window.scrollTo({ top: 0, behavior: "smooth" });
+                          }
+                        }}
+                        className={`flex w-full items-center justify-between rounded-lg px-2 py-2 hover:bg-zinc-50 ${
+                          isCurrent ? "bg-zinc-100" : ""
+                        }`}
+                      >
+                        <span className="font-medium truncate">{shortName}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }}
+                  className="flex w-full items-center justify-between rounded-lg px-2 py-2 hover:bg-zinc-50"
+                >
+                  <span className="font-medium truncate">{sidebarProductName}</span>
+                </button>
+              )}
 
               <p className="mt-4 mb-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-zinc-500">
                 Contact
