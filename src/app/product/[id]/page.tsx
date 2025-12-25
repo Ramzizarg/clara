@@ -530,53 +530,6 @@ export default function ProductByIdPage() {
                   </div>
                 </div>
               )}
-
-      {isOrderSuccessOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4">
-          <div className="w-full max-w-sm rounded-2xl bg-white p-6 text-center shadow-xl">
-            <h2 className="mb-2 text-lg font-semibold text-zinc-900">Commande envoyée !</h2>
-            <p className="mb-4 text-xs text-zinc-600">
-              Merci pour votre confiance. Nous allons vous contacter pour confirmer votre commande.
-            </p>
-            <button
-              type="button"
-              onClick={() => {
-                setIsOrderSuccessOpen(false);
-                window.location.reload();
-              }}
-              className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[#ff6b00] to-[#ff1744] px-4 py-2 text-xs font-semibold text-white shadow hover:brightness-95"
-            >
-              Fermer
-            </button>
-          </div>
-        </div>
-      )}
-
-      {isContactOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4">
-          <div className="w-full max-w-sm rounded-2xl bg-white p-6 text-center shadow-xl">
-            <h2 className="mb-2 text-lg font-semibold text-zinc-900">Contactez-nous</h2>
-            <p className="mb-3 text-xs text-zinc-600">
-              Pour toute question ou pour passer commande par téléphone, vous pouvez nous joindre :
-            </p>
-            <div className="mb-4 space-y-2 text-sm text-zinc-800">
-              <p>
-                <span className="font-semibold">Téléphone :</span> +216 50 556 197
-              </p>
-              <p>
-                <span className="font-semibold">Email :</span> Clara.shop.tn@gmail.com
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={() => setIsContactOpen(false)}
-              className="inline-flex items-center justify-center rounded-full bg-zinc-900 px-4 py-2 text-xs font-semibold text-white shadow hover:bg-zinc-800"
-            >
-              Fermer
-            </button>
-          </div>
-        </div>
-      )}
             </div>
           </div>
           <div className="mt-3 flex justify-center gap-1">
@@ -1165,7 +1118,7 @@ export default function ProductByIdPage() {
               <span className="font-semibold uppercase tracking-wide text-[10px] text-zinc-900">
                 Prix total
               </span>
-              <span className="text-sm font-extrabold text-[#ff1744]">
+              <span className="text-sm font-extrabold text-emerald-600">
                 {total.toFixed(2)} DT
               </span>
             </div>
