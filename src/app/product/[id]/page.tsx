@@ -485,7 +485,14 @@ export default function ProductByIdPage() {
             >
               {images.length > 0 ? (
                 images.map((img, index) => (
-                  <div key={img.id} className="relative min-w-full snap-center">
+                  <div
+                    key={img.id}
+                    className="relative min-w-full snap-center cursor-zoom-in"
+                    onClick={() => {
+                      setActiveSlide(index);
+                      openZoomWithImage(img);
+                    }}
+                  >
                     <img
                       src={img.url}
                       alt={product.name}
@@ -493,7 +500,8 @@ export default function ProductByIdPage() {
                     />
                     <button
                       type="button"
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         setActiveSlide(index);
                         openZoomWithImage(img);
                       }}
@@ -551,7 +559,14 @@ export default function ProductByIdPage() {
 
         {/* Colonne gauche : image principale + miniatures (desktop) */}
         <div className="hidden w-full space-y-4 md:block md:w-1/2">
-          <div className="relative mx-auto w-full max-w-sm aspect-[4/5] overflow-hidden rounded-3xl border border-zinc-200 bg-zinc-50">
+          <div
+            className="relative mx-auto w-full max-w-sm aspect-[4/5] overflow-hidden rounded-3xl border border-zinc-200 bg-zinc-50 cursor-zoom-in"
+            onClick={() => {
+              if (currentImage) {
+                openZoomWithImage(currentImage);
+              }
+            }}
+          >
             {currentImage ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -567,7 +582,10 @@ export default function ProductByIdPage() {
             {currentImage && (
               <button
                 type="button"
-                onClick={() => openZoomWithImage(currentImage)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  openZoomWithImage(currentImage);
+                }}
                 className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur hover:bg-black/80"
               >
                 <svg aria-hidden viewBox="0 0 24 24" className="h-4 w-4">
