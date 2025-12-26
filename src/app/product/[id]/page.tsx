@@ -90,6 +90,62 @@ export default function ProductByIdPage() {
     }
   }, [productId]);
 
+  // Send ViewContent event to Meta Pixel + Conversions API when product is loaded
+  useEffect(() => {
+    if (!product) return;
+
+    const eventId = typeof crypto !== "undefined" && "randomUUID" in crypto
+      ? crypto.randomUUID()
+      : `${product.id}-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+
+    // Browser Pixel event with eventID for deduplication
+    try {
+      if (typeof window !== "undefined" && (window as any).fbq) {
+        (window as any).fbq(
+          "track",
+          "ViewContent",
+          {
+            content_ids: [String(product.id)],
+            content_type: "product",
+            value: product.salePrice && !Number.isNaN(product.salePrice)
+              ? product.salePrice
+              : product.price,
+            currency: "TND",
+          },
+          { eventID: eventId }
+        );
+      }
+    } catch (e) {
+      // ignore pixel errors
+    }
+
+    // Server-side Conversions API via our API route
+    const sendCapi = async () => {
+      try {
+        await fetch("/api/meta-capi", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            eventName: "ViewContent",
+            eventId,
+            productId: product.id,
+            value: product.salePrice && !Number.isNaN(product.salePrice)
+              ? product.salePrice
+              : product.price,
+            currency: "TND",
+            eventSourceUrl: typeof window !== "undefined" ? window.location.href : undefined,
+          }),
+        });
+      } catch {
+        // silently ignore CAPI errors on client
+      }
+    };
+
+    sendCapi();
+  }, [product]);
+
   // Load list of all products for the sidebar menu
   useEffect(() => {
     const fetchAllProducts = async () => {
