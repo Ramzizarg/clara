@@ -42,22 +42,22 @@ export function OrderStatusControls({
   };
 
   return (
-    <div className="flex items-center justify-end gap-6 text-sm md:min-w-[320px]">
-      {/* Prix total produit (sans livraison) */}
-      <div className="text-right text-2xl font-bold text-[#ff1744] min-w-[90px]">
+    <div className="flex flex-col gap-3 text-sm md:flex-row md:items-center md:justify-end md:gap-6 md:min-w-[320px]">
+      {/* Prix total produit (sans livraison) - visible on desktop only */}
+      <div className="hidden text-right text-2xl font-bold text-[#ff1744] md:block md:min-w-[90px]">
         {netTotal.toFixed(2)} DT
       </div>
 
-      {/* Confirmation tél. + Status alignés horizontalement */}
-      <div className="flex items-center gap-6 text-[11px]">
-        <div className="flex flex-col items-start gap-1 min-w-[130px]">
+      {/* Confirmation tél. + Status */}
+      <div className="flex flex-col gap-3 text-[11px] md:flex-row md:items-center md:gap-6 w-full md:w-auto">
+        <div className="flex flex-col items-stretch gap-1 md:items-start md:min-w-[130px] w-full">
           <span className="text-[10px] font-medium text-zinc-500 uppercase tracking-[0.14em]">
             Confirmation tél.
           </span>
           <select
             value={phoneConfirmed ? "true" : "false"}
             onChange={(e) => handlePhoneChange(e.target.value === "true")}
-            className={`min-w-[120px] rounded-md border px-3 py-1.5 text-xs outline-none focus:ring-1 focus:ring-rose-400 focus:border-rose-400 ${
+            className={`w-full md:min-w-[120px] rounded-md border px-3 py-1.5 text-xs outline-none focus:ring-1 focus:ring-rose-400 focus:border-rose-400 ${
               phoneConfirmed
                 ? "border-emerald-200 bg-emerald-50 text-emerald-700"
                 : "border-rose-200 bg-rose-50 text-rose-700"
@@ -68,12 +68,12 @@ export function OrderStatusControls({
           </select>
         </div>
 
-        <div className="flex flex-col items-start gap-1 min-w-[150px]">
+        <div className="flex flex-col items-stretch gap-1 md:items-start md:min-w-[150px] w-full">
           <span className="text-[10px] font-medium text-zinc-500 uppercase tracking-[0.14em]">
             Status
           </span>
           <div
-            className={`inline-flex items-center gap-2 min-w-[140px] rounded-md border px-2 py-1.5 ${
+            className={`inline-flex items-center gap-2 rounded-md border px-2 py-1.5 w-full md:min-w-[140px] ${
               status === "PENDING"
                 ? "border-amber-200 bg-amber-50"
                 : status === "LIVREE"

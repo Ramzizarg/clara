@@ -222,9 +222,9 @@ export default async function AdminDashboard({
 
         {/* Recent orders */}
         <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-zinc-100 hover:shadow-md transition-shadow">
-          <div className="border-b border-zinc-100 px-5 py-3 flex items-start justify-between gap-4">
-            <div className="leading-tight">
-              {/* Mobile: two-line title */}
+          <div className="border-b border-zinc-100 px-1 py-3 flex items-center justify-between gap-3 md:px-5">
+            <div className="leading-tight flex-shrink-0">
+              {/* Mobile: two-line title, strong left alignment */}
               <h2 className="block text-base font-semibold text-zinc-900 md:hidden">
                 Commandes
                 <br />
@@ -235,16 +235,16 @@ export default async function AdminDashboard({
                 Commandes récentes
               </h2>
             </div>
-            <div className="flex flex-col items-end gap-2 text-[11px] md:flex-row md:flex-wrap md:items-center md:justify-end">
+            <div className="flex flex-wrap justify-end gap-2 text-[11px]">
               {/* Row 1: Livrée + En attente */}
-              <div className="flex w-full items-center justify-end gap-2 md:w-auto">
-                <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-50 rounded-full">
+              <div className="flex w-full gap-2 md:w-auto md:justify-end">
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50">
                   <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
                   <span className="text-xs font-medium text-emerald-700">
                     Livrée: {statusCounts["LIVREE"] || 0}
                   </span>
                 </div>
-                <div className="flex items-center gap-2 px-3 py-1.5 bg-amber-50 rounded-full">
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-50">
                   <span className="h-2.5 w-2.5 rounded-full bg-amber-500" />
                   <span className="text-xs font-medium text-amber-700">
                     En attente: {statusCounts["PENDING"] || 0}
@@ -253,14 +253,14 @@ export default async function AdminDashboard({
               </div>
 
               {/* Row 2: Retour + Refusée */}
-              <div className="flex w-full items-center justify-end gap-2 md:w-auto">
-                <div className="flex items-center gap-2 px-3 py-1.5 bg-sky-50 rounded-full">
+              <div className="flex w-full gap-2 md:w-auto md:justify-end">
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-sky-50">
                   <span className="h-2.5 w-2.5 rounded-full bg-sky-500" />
                   <span className="text-xs font-medium text-sky-700">
                     Retour: {statusCounts["RETOUR"] || 0}
                   </span>
                 </div>
-                <div className="flex items-center gap-2 px-3 py-1.5 bg-rose-50 rounded-full">
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-rose-50">
                   <span className="h-2.5 w-2.5 rounded-full bg-rose-500" />
                   <span className="text-xs font-medium text-rose-700">
                     Refusée: {statusCounts["ANNULEE"] || 0}
@@ -287,8 +287,14 @@ export default async function AdminDashboard({
                         {format(order.date, "dd/MM")}
                       </span>
                     </div>
-                    <div className="mt-1 text-sm font-medium text-zinc-900">
-                      {order.customerName}
+                    <div className="mt-1 flex items-baseline justify-between gap-2">
+                      <div className="text-sm font-medium text-zinc-900">
+                        {order.customerName}
+                      </div>
+                      {/* Mobile-only price next to customer name */}
+                      <div className="text-lg font-bold text-[#ff1744] md:hidden">
+                        {order.netTotal.toFixed(2)} DT
+                      </div>
                     </div>
                     <div className="mt-0.5 text-xs text-zinc-500 line-clamp-1">
                       {order.city} · {order.phone}
