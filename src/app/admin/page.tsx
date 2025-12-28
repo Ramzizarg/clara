@@ -274,54 +274,58 @@ export default async function AdminDashboard({
             {recentOrders.map((order: any) => (
               <div
                 key={order.id}
-                className="flex flex-col gap-3 px-6 py-3 md:flex-row md:items-center md:justify-between"
+                className="px-4 py-4 space-y-3 md:flex md:items-center md:justify-between md:gap-4 md:px-6 md:py-3"
               >
-                {/* Left: id + client */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-3 text-sm">
-                    <span className="font-semibold text-zinc-900">
-                      #{order.id}
-                    </span>
-                    <span className="text-[11px] text-zinc-500">
-                      {format(order.date, "dd/MM")}
-                    </span>
-                  </div>
-                  <div className="mt-1 text-sm font-medium text-zinc-900">
-                    {order.customerName}
-                  </div>
-                  <div className="mt-0.5 text-xs text-zinc-500 line-clamp-1">
-                    {order.city} · {order.phone}
-                  </div>
-                </div>
-
-                {/* Middle: product with image */}
-                <div className="flex-1 min-w-0 flex items-center gap-3 text-sm text-zinc-700">
-                  {order.productImageUrl && (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={order.productImageUrl}
-                      alt={order.productName}
-                      className="h-10 w-10 rounded-lg object-cover border border-zinc-200"
-                    />
-                  )}
+                <div className="flex flex-1 flex-col gap-2 min-w-0 md:flex-row md:items-center md:gap-4">
+                  {/* Left: id + client */}
                   <div className="min-w-0">
-                    <div className="font-medium line-clamp-1">
-                      {order.productName}
+                    <div className="flex items-center gap-3 text-sm">
+                      <span className="font-semibold text-zinc-900">
+                        #{order.id}
+                      </span>
+                      <span className="text-[11px] text-zinc-500">
+                        {format(order.date, "dd/MM")}
+                      </span>
                     </div>
-                    <div className="mt-0.5 text-xs text-zinc-500">
-                      {order.items} article{order.items > 1 ? "s" : ""}
+                    <div className="mt-1 text-sm font-medium text-zinc-900">
+                      {order.customerName}
+                    </div>
+                    <div className="mt-0.5 text-xs text-zinc-500 line-clamp-1">
+                      {order.city} · {order.phone}
+                    </div>
+                  </div>
+
+                  {/* Middle: product with image */}
+                  <div className="flex items-center gap-3 text-sm text-zinc-700 min-w-0">
+                    {order.productImageUrl && (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={order.productImageUrl}
+                        alt={order.productName}
+                        className="h-10 w-10 rounded-lg object-cover border border-zinc-200 flex-shrink-0"
+                      />
+                    )}
+                    <div className="min-w-0">
+                      <div className="font-medium line-clamp-1">
+                        {order.productName}
+                      </div>
+                      <div className="mt-0.5 text-xs text-zinc-500">
+                        {order.items} article{order.items > 1 ? "s" : ""}
+                      </div>
                     </div>
                   </div>
                 </div>
 
                 {/* Right: total + editable status & phone confirmation (auto-save) */}
-                <OrderStatusControls
-                  orderId={order.id}
-                  initialStatus={order.status}
-                  initialPhoneConfirmed={order.phoneConfirmed}
-                  netTotal={order.netTotal}
-                  updateAction={updateOrderAdmin}
-                />
+                <div className="mt-2 md:mt-0 md:ml-4">
+                  <OrderStatusControls
+                    orderId={order.id}
+                    initialStatus={order.status}
+                    initialPhoneConfirmed={order.phoneConfirmed}
+                    netTotal={order.netTotal}
+                    updateAction={updateOrderAdmin}
+                  />
+                </div>
               </div>
             ))}
           </div>
