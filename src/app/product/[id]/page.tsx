@@ -166,7 +166,10 @@ export default function ProductByIdPage() {
   useEffect(() => {
     if (!product) return;
     const imgs = (product.images && product.images.length > 0)
-      ? product.images
+      ? [...product.images].sort((a, b) => {
+          if (a.isPrimary === b.isPrimary) return 0;
+          return a.isPrimary ? -1 : 1;
+        })
       : product.imageUrl
         ? [{ id: 0, url: product.imageUrl, isPrimary: true }]
         : [];
