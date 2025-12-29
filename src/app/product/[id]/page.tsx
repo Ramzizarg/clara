@@ -164,19 +164,11 @@ export default function ProductByIdPage() {
 
   // When images load or change, default the active image to the primary one
   useEffect(() => {
-    if (!product) return;
-    const imgs = (product.images && product.images.length > 0)
-      ? product.images
-      : product.imageUrl
-        ? [{ id: 0, url: product.imageUrl, isPrimary: true }]
-        : [];
-
-    if (imgs.length === 0) return;
-
-    const primaryIdx = imgs.findIndex((img) => img.isPrimary);
+    if (!images || images.length === 0) return;
+    const primaryIdx = images.findIndex((img) => img.isPrimary);
     const initialIndex = primaryIdx >= 0 ? primaryIdx : 0;
     setActiveImageIndex(initialIndex);
-  }, [product]);
+  }, [images]);
 
   // From here down, reuse the exact same UI as /product/page.tsx
 
