@@ -162,6 +162,22 @@ export default function ProductByIdPage() {
     fetchAllProducts();
   }, []);
 
+  // When images load or change, default the active image to the primary one
+  useEffect(() => {
+    if (!product) return;
+    const imgs = (product.images && product.images.length > 0)
+      ? product.images
+      : product.imageUrl
+        ? [{ id: 0, url: product.imageUrl, isPrimary: true }]
+        : [];
+
+    if (imgs.length === 0) return;
+
+    const primaryIdx = imgs.findIndex((img) => img.isPrimary);
+    const initialIndex = primaryIdx >= 0 ? primaryIdx : 0;
+    setActiveImageIndex(initialIndex);
+  }, [product]);
+
   // From here down, reuse the exact same UI as /product/page.tsx
 
   if (loading) {
@@ -209,14 +225,6 @@ export default function ProductByIdPage() {
     : product.imageUrl
       ? [{ id: 0, url: product.imageUrl, isPrimary: true }]
       : [];
-
-  // When images load or change, default the active image to the primary one
-  useEffect(() => {
-    if (!images || images.length === 0) return;
-    const primaryIdx = images.findIndex((img) => img.isPrimary);
-    const initialIndex = primaryIdx >= 0 ? primaryIdx : 0;
-    setActiveImageIndex(initialIndex);
-  }, [images]);
 
   const primaryImage = images.find((img) => img.isPrimary) ?? images[0] ?? null;
   const galleryImages = primaryImage
